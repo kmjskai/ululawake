@@ -1,0 +1,91 @@
+name: Release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+concurrency:
+  group: ululawake-release
+  cancel-in-progress: false
+jobs:
+  test:
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+      - uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1
+        with:
+          xcode-version: latest-stable
+      - run: brew install xcodegen
+      - name: Check version and public snapshot ancestry
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python3 scripts/validate-version.py
+          git fetch --no-tags origin main
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+      - run: python3 -m unittest discover -s scripts/tests
+      - run: ./scripts/test.sh
+      - run: ./scripts/build-release.sh
+  release:
+    needs: test
+    runs-on: macos-26
+    timeout-minutes: 60
+    environment: production
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90 # v1
+        with:
+          xcode-version: latest-stable
+      - run: brew install xcodegen
+      - run: python3 scripts/validate-version.py
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+      - name: Require unused release tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" > "$RUNNER_TEMP/releases.json"
+          python3 - <<'CHECK'
+          import json, os
+          releases = json.load(open(os.environ['RUNNER_TEMP'] + '/releases.json'))
+          if any(r['tag_name'] == os.environ['RELEASE_TAG'] for r in releases):
+              raise SystemExit('Release already exists; do not rebuild or overwrite its assets.')
+          CHECK
+      - run: ./scripts/build-release.sh
+      - name: Sign and notarize the final app and DMG
+        env:
+          MACOS_CERTIFICATE_P12_BASE64: ${{ secrets.MACOS_CERTIFICATE_P12_BASE64 }}
+          MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+          APPLE_NOTARY_KEY_P8_BASE64: ${{ secrets.APPLE_NOTARY_KEY_P8_BASE64 }}
+          APPLE_NOTARY_KEY_ID: ${{ secrets.APPLE_NOTARY_KEY_ID }}
+          APPLE_NOTARY_ISSUER_ID: ${{ secrets.APPLE_NOTARY_ISSUER_ID }}
+        run: ./scripts/developer-id-release.sh build/Build/Products/Release/UlulaWake.app "build/UlulaWake-$VERSION.dmg"
+      - uses: actions/attest@f7c74d28b9d84cb8768d0b8ca14a4bac6ef463e6 # v4
+        with:
+          subject-path: build/UlulaWake-${{ env.VERSION }}.dmg
+      - name: Publish an immutable Pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$RELEASE_TAG" \
+            "build/UlulaWake-$VERSION.dmg" "build/UlulaWake-$VERSION.sha256" \
+            --verify-tag --prerelease --latest=false \
+            --title "UlulaWake $VERSION Preview" --notes-file CHANGELOG.md
+      - name: Download and verify the published bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh release download "$RELEASE_TAG" --dir downloaded
+          cmp "build/UlulaWake-$VERSION.dmg" "downloaded/UlulaWake-$VERSION.dmg"
+          ./scripts/verify-release-artifact.sh final-dmg "downloaded/UlulaWake-$VERSION.dmg" "downloaded/UlulaWake-$VERSION.sha256"
+          gh attestation verify "downloaded/UlulaWake-$VERSION.dmg" --repo "$GITHUB_REPOSITORY"

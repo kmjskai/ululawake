@@ -1,0 +1,46 @@
+name: Promote Release
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing version tag to promote
+        required: true
+        type: string
+      confirmation:
+        description: Type PROMOTE after testing the downloaded app
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: ululawake-release
+  cancel-in-progress: false
+jobs:
+  promote:
+    runs-on: macos-26
+    timeout-minutes: 20
+    environment: production
+    permissions:
+      contents: write
+      attestations: read
+    env:
+      RELEASE_TAG: ${{ inputs.tag }}
+      CONFIRMATION: ${{ inputs.confirmation }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - run: test "$CONFIRMATION" = PROMOTE
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ inputs.tag }}
+          fetch-depth: 0
+      - run: |
+          python3 scripts/validate-version.py
+          git fetch --no-tags origin main
+          git merge-base --is-ancestor HEAD origin/main
+      - name: Verify the existing package without rebuilding
+        run: |
+          gh release download "$RELEASE_TAG" --dir downloaded
+          ./scripts/verify-release-artifact.sh final-dmg "downloaded/UlulaWake-$VERSION.dmg" "downloaded/UlulaWake-$VERSION.sha256"
+          gh attestation verify "downloaded/UlulaWake-$VERSION.dmg" --repo "$GITHUB_REPOSITORY"
+      - name: Promote the same release
+        run: gh release edit "$RELEASE_TAG" --prerelease=false --latest --title "UlulaWake $VERSION"

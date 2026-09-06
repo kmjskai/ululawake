@@ -1,0 +1,41 @@
+{
+  "fill" : {
+    "solid" : "display-p3:0.07059,0.09412,0.30980,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "image-name" : "04-feet.svg",
+          "name" : "04-feet"
+        },
+        {
+          "image-name" : "03-laptop.svg",
+          "name" : "03-laptop"
+        },
+        {
+          "image-name" : "02-eyes-beak.svg",
+          "name" : "02-eyes-beak"
+        },
+        {
+          "image-name" : "01-owl.svg",
+          "name" : "01-owl"
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

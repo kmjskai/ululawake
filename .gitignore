@@ -1,0 +1,12 @@
+build/
+DerivedData/
+design-previews/
+*.xcodeproj
+xcuserdata/
+.DS_Store
+build-tests/
+*.p12
+*.p8
+.env
+__pycache__/
+*.pyc

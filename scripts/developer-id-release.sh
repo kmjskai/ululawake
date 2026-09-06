@@ -53,7 +53,17 @@ KEYCHAIN_PASSWORD="$(openssl rand -hex 32)"
 P12="${WORK}/developer-id.p12"
 NOTARY_KEY="${WORK}/AuthKey.p8"
 
+# codesign needs the imported identity in the user keychain search list as well
+# as an explicit --keychain path. Restore the original state on every exit.
+ORIGINAL_KEYCHAINS=()
+while IFS= read -r path; do
+    ORIGINAL_KEYCHAINS+=("$path")
+done < <(security list-keychains -d user | python3 -c 'import shlex,sys; print("\n".join(shlex.split(sys.stdin.read())))')
+ORIGINAL_DEFAULT="$(security default-keychain -d user | python3 -c 'import shlex,sys; print(shlex.split(sys.stdin.read())[0])')"
+
 cleanup() {
+    security default-keychain -d user -s "$ORIGINAL_DEFAULT" >/dev/null 2>&1 || true
+    security list-keychains -d user -s "${ORIGINAL_KEYCHAINS[@]}" >/dev/null 2>&1 || true
     security delete-keychain "$KEYCHAIN" >/dev/null 2>&1 || true
     rm -rf "$WORK"
 }
@@ -66,6 +76,8 @@ chmod 600 "$P12" "$NOTARY_KEY"
 security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
 security set-keychain-settings -lut 21600 "$KEYCHAIN"
 security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+security list-keychains -d user -s "$KEYCHAIN" "${ORIGINAL_KEYCHAINS[@]}"
+security default-keychain -d user -s "$KEYCHAIN"
 security import "$P12" \
     -k "$KEYCHAIN" \
     -P "$MACOS_CERTIFICATE_PASSWORD" \

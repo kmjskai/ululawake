@@ -27,8 +27,8 @@ targets:
         LSMinimumSystemVersion: "14.0"
         LSUIElement: true
         CFBundleDisplayName: UlulaWake
-        CFBundleShortVersionString: "2026.9.0"
-        CFBundleVersion: "4"
+        CFBundleShortVersionString: "2026.9.1"
+        CFBundleVersion: "5"
   UlulaWakeTests:
     type: bundle.unit-test
     platform: macOS

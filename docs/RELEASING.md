@@ -1,8 +1,5 @@
-# Release model
+# Building a release
 
-The public repository provides buildable source snapshots for product versions. Private development
-history and internal project records are not published. Tags remain fixed at the corresponding
-snapshots; main also carries current documentation and release-workflow maintenance.
 Versions follow YYYY.M.PATCH; CFBundleVersion is an independently increasing build number.
 
 CI tests pull requests without signing secrets. Version tags trigger tests, a universal Release build,
@@ -25,11 +22,9 @@ never falls back to the entire changelog. Review the extracted text before creat
 python3 scripts/extract-release-notes.py 2026.9.1 --output /tmp/ululawake-release-notes.md
 ```
 
-Review README, CHANGELOG and the rendered release notes for user-facing accuracy. Keep debugging
-diaries, failed-build explanations, personal environment details and development plans in private
-project records. User-impacting limitations and recovery instructions belong in public documentation.
-Source-build and release instructions, licensing and attribution remain public so others can use
-and build the project.
+Before creating a tag, check that README matches the app's behavior and that the changelog and
+rendered release notes explain the version's changes, installation requirements, limitations and
+recovery instructions.
 
 ## Production environment
 

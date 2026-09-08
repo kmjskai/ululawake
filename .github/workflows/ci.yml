@@ -16,6 +16,8 @@ jobs:
           xcode-version: latest-stable
       - run: brew install xcodegen
       - run: python3 scripts/validate-version.py
+      - name: Validate current release notes
+        run: python3 scripts/extract-release-notes.py "$VERSION" --output "$RUNNER_TEMP/release-notes.md"
       - run: python3 -m unittest discover -s scripts/tests
       - run: ./scripts/test.sh
       - run: ./scripts/build-release.sh

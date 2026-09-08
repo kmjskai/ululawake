@@ -26,6 +26,8 @@ jobs:
           python3 scripts/validate-version.py
           git fetch --no-tags origin main
           git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+      - name: Validate current release notes
+        run: python3 scripts/extract-release-notes.py "$VERSION" --output "$RUNNER_TEMP/release-notes.md"
       - run: python3 -m unittest discover -s scripts/tests
       - run: ./scripts/test.sh
       - run: ./scripts/build-release.sh
@@ -47,6 +49,8 @@ jobs:
       - run: python3 scripts/validate-version.py
         env:
           RELEASE_TAG: ${{ github.ref_name }}
+      - name: Prepare current release notes
+        run: python3 scripts/extract-release-notes.py "$VERSION" --output "$RUNNER_TEMP/release-notes.md"
       - name: Require unused release tag
         env:
           GH_TOKEN: ${{ github.token }}
@@ -79,7 +83,7 @@ jobs:
           gh release create "$RELEASE_TAG" \
             "build/UlulaWake-$VERSION.dmg" "build/UlulaWake-$VERSION.sha256" \
             --verify-tag --prerelease --latest=false \
-            --title "UlulaWake $VERSION Preview" --notes-file CHANGELOG.md
+            --title "UlulaWake $VERSION Preview" --notes-file "$RUNNER_TEMP/release-notes.md"
       - name: Download and verify the published bytes
         env:
           GH_TOKEN: ${{ github.token }}

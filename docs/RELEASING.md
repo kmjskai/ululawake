@@ -1,7 +1,8 @@
 # Release model
 
-The public main branch contains one source snapshot per product version. Private development history
-and internal project records are not published. Tags point at the corresponding public snapshots.
+The public repository provides buildable source snapshots for product versions. Private development
+history and internal project records are not published. Tags remain fixed at the corresponding
+snapshots; main also carries current documentation and release-workflow maintenance.
 Versions follow YYYY.M.PATCH; CFBundleVersion is an independently increasing build number.
 
 CI tests pull requests without signing secrets. Version tags trigger tests, a universal Release build,
@@ -10,10 +11,30 @@ attestation. The workflow publishes a Pre-release. After downloading and testing
 run Promote Release with its tag and confirmation PROMOTE. Promotion preserves the existing bytes.
 No Sparkle feed or in-app updater is included in the current product.
 
+## Public documentation
+
+README describes the current product, installation, permissions, recovery and source builds.
+CHANGELOG uses one exact `## YYYY.M.PATCH` heading per version and contains only changes and guidance
+that matter to users. Use `###` headings within a version entry.
+
+CI validates the current entry with `scripts/extract-release-notes.py`. The release workflow uses only
+that entry for its release notes. A missing, duplicate or empty entry stops publication; the workflow
+never falls back to the entire changelog. Review the extracted text before creating a version tag:
+
+```sh
+python3 scripts/extract-release-notes.py 2026.9.1 --output /tmp/ululawake-release-notes.md
+```
+
+Review README, CHANGELOG and the rendered release notes for user-facing accuracy. Keep debugging
+diaries, failed-build explanations, personal environment details and development plans in private
+project records. User-impacting limitations and recovery instructions belong in public documentation.
+Source-build and release instructions, licensing and attribution remain public so others can use
+and build the project.
+
 ## Production environment
 
 Restrict production deployments to release tags (v*) and main for manual promotion. Configure an owner
-reviewer as in FloralMD. Store these five values as production environment secrets, never source files:
+reviewer. Store these five values as production environment secrets, never source files:
 
 - MACOS_CERTIFICATE_P12_BASE64
 - MACOS_CERTIFICATE_PASSWORD

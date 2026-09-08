@@ -13,7 +13,6 @@ UlulaWake 是一款 macOS 菜单栏工具，适合下载、构建等需要临时
 在 [Releases](https://github.com/yingkaisun-kai/UlulaWake/releases) 下载 DMG，
 打开后将 UlulaWake 拖入 Applications，再从 Applications 启动。
 正式安装包由 GitHub Actions 构建，并经过 Developer ID 签名和 Apple 公证。
-首次公开包完成前，Releases 可能尚无可下载资产。
 
 ## 开始使用
 
@@ -63,5 +62,6 @@ brew install xcodegen
 ## 开源许可与历史
 
 [Apache License 2.0](LICENSE)。Copyright 2026 Yingkai Sun。
-公开 main 每个版本保留一个可构建源码快照；Tag 指向相应快照。
+公开仓库按版本提供可构建源码快照；Tag 固定指向对应版本。
+main 同时维护最新的使用文档与发布工作流。
 开发过程、内部记录和中间提交保留在维护者的开发仓库中。

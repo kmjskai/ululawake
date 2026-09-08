@@ -8,10 +8,10 @@
 
 <p align="center">
   <a href="#系统要求"><img src="https://img.shields.io/badge/platform-macOS%2014%2B-0064e1?style=flat-square" alt="macOS 14+"></a>
-  <a href="https://github.com/yingkaisun-kai/UlulaWake/releases/latest"><img src="https://img.shields.io/github/v/release/yingkaisun-kai/UlulaWake?style=flat-square&amp;color=2f7de1" alt="最新版本"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/yingkaisun-kai/UlulaWake?style=flat-square&amp;color=772678" alt="开源许可证"></a>
-  <a href="https://github.com/yingkaisun-kai/UlulaWake/releases"><img src="https://img.shields.io/github/downloads/yingkaisun-kai/UlulaWake/total?style=flat-square&amp;color=ff6916" alt="累计下载量"></a>
-  <a href="https://github.com/yingkaisun-kai/UlulaWake/actions/workflows/ci.yml"><img src="https://github.com/yingkaisun-kai/UlulaWake/actions/workflows/ci.yml/badge.svg" alt="CI 状态"></a>
+  <a href="https://github.com/yingkaisun-kai/ululawake/releases/latest"><img src="https://img.shields.io/github/v/release/yingkaisun-kai/ululawake?style=flat-square&amp;color=2f7de1" alt="最新版本"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/yingkaisun-kai/ululawake?style=flat-square&amp;color=772678" alt="开源许可证"></a>
+  <a href="https://github.com/yingkaisun-kai/ululawake/releases"><img src="https://img.shields.io/github/downloads/yingkaisun-kai/ululawake/total?style=flat-square&amp;color=ff6916" alt="累计下载量"></a>
+  <a href="https://github.com/yingkaisun-kai/ululawake/actions/workflows/ci.yml"><img src="https://github.com/yingkaisun-kai/ululawake/actions/workflows/ci.yml/badge.svg" alt="CI 状态"></a>
 </p>
 
 UlulaWake 是一款 macOS 菜单栏工具，适合下载、构建等需要临时保持 Mac 运行的场景。
@@ -27,7 +27,7 @@ UlulaWake 是一款 macOS 菜单栏工具，适合下载、构建等需要临时
 
 ## 下载与快速开始
 
-从 [最新版本](https://github.com/yingkaisun-kai/UlulaWake/releases/latest) 下载 DMG，打开后将
+从 [最新版本](https://github.com/yingkaisun-kai/ululawake/releases/latest) 下载 DMG，打开后将
 UlulaWake 拖入“应用程序”，再从“应用程序”启动。安装包已经过 Developer ID 签名和 Apple 公证。
 
 1. 点击菜单栏猫头鹰图标，再点击“授权”，通过系统管理员授权启用睡眠控制。
@@ -64,7 +64,7 @@ sudo pmset -a disablesleep 0
 ## 隐私与反馈
 
 UlulaWake 无需账户，不使用云服务或遥测；设置和状态保存在本机。
-问题请提交到 [Issues](https://github.com/yingkaisun-kai/UlulaWake/issues)，
+问题请提交到 [Issues](https://github.com/yingkaisun-kai/ululawake/issues)，
 附上版本、macOS 版本、芯片类型与复现步骤，勿附密码或私人数据。
 当前通过 Releases 手动下载更新，没有应用内自动更新。
 
@@ -78,7 +78,7 @@ brew install xcodegen
 ./scripts/build-release.sh # 无证书的双架构 Release 构建
 ```
 
-需要签名、公证后的安装包，请从 [Releases](https://github.com/yingkaisun-kai/UlulaWake/releases) 下载。
+需要签名、公证后的安装包，请从 [Releases](https://github.com/yingkaisun-kai/ululawake/releases) 下载。
 
 ## 开源许可
 

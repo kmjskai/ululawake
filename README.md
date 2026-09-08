@@ -1,12 +1,18 @@
-# UlulaWake
+<p align="center">
+  <img src="docs/assets/ululawake-app-icon.png" width="128" alt="UlulaWake 应用图标">
+</p>
 
-[![macOS 14+](https://img.shields.io/badge/platform-macOS%2014%2B-0064e1?style=flat-square)](#系统要求)
-[![Latest release](https://img.shields.io/github/v/release/yingkaisun-kai/UlulaWake?style=flat-square&color=2f7de1)](https://github.com/yingkaisun-kai/UlulaWake/releases/latest)
-[![License](https://img.shields.io/github/license/yingkaisun-kai/UlulaWake?style=flat-square&color=772678)](LICENSE)
-[![Downloads](https://img.shields.io/github/downloads/yingkaisun-kai/UlulaWake/total?style=flat-square&color=ff6916)](https://github.com/yingkaisun-kai/UlulaWake/releases)
-[![CI](https://github.com/yingkaisun-kai/UlulaWake/actions/workflows/ci.yml/badge.svg)](https://github.com/yingkaisun-kai/UlulaWake/actions/workflows/ci.yml)
+<h1 align="center">UlulaWake</h1>
 
-**让 Mac 合盖后继续运行任务，并在结束后安全恢复正常睡眠。**
+<p align="center"><strong>让 Mac 合盖后继续运行任务，并在结束后安全恢复正常睡眠。</strong></p>
+
+<p align="center">
+  <a href="#系统要求"><img src="https://img.shields.io/badge/platform-macOS%2014%2B-0064e1?style=flat-square" alt="macOS 14+"></a>
+  <a href="https://github.com/yingkaisun-kai/UlulaWake/releases/latest"><img src="https://img.shields.io/github/v/release/yingkaisun-kai/UlulaWake?style=flat-square&amp;color=2f7de1" alt="最新版本"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/yingkaisun-kai/UlulaWake?style=flat-square&amp;color=772678" alt="开源许可证"></a>
+  <a href="https://github.com/yingkaisun-kai/UlulaWake/releases"><img src="https://img.shields.io/github/downloads/yingkaisun-kai/UlulaWake/total?style=flat-square&amp;color=ff6916" alt="累计下载量"></a>
+  <a href="https://github.com/yingkaisun-kai/UlulaWake/actions/workflows/ci.yml"><img src="https://github.com/yingkaisun-kai/UlulaWake/actions/workflows/ci.yml/badge.svg" alt="CI 状态"></a>
+</p>
 
 UlulaWake 是一款 macOS 菜单栏工具，适合下载、构建等需要临时保持 Mac 运行的场景。
 支持无限期、倒计时和指定结束时间，并提供低电量、重新开盖和退出时的恢复机制。

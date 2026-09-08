@@ -1,28 +1,44 @@
 # UlulaWake
 
-让 Mac 合盖后继续运行任务，并在结束后恢复正常睡眠。
+[![macOS 14+](https://img.shields.io/badge/platform-macOS%2014%2B-0064e1?style=flat-square)](#系统要求)
+[![Latest release](https://img.shields.io/github/v/release/yingkaisun-kai/UlulaWake?style=flat-square&color=2f7de1)](https://github.com/yingkaisun-kai/UlulaWake/releases/latest)
+[![License](https://img.shields.io/github/license/yingkaisun-kai/UlulaWake?style=flat-square&color=772678)](LICENSE)
+[![Downloads](https://img.shields.io/github/downloads/yingkaisun-kai/UlulaWake/total?style=flat-square&color=ff6916)](https://github.com/yingkaisun-kai/UlulaWake/releases)
+[![CI](https://github.com/yingkaisun-kai/UlulaWake/actions/workflows/ci.yml/badge.svg)](https://github.com/yingkaisun-kai/UlulaWake/actions/workflows/ci.yml)
+
+**让 Mac 合盖后继续运行任务，并在结束后安全恢复正常睡眠。**
 
 UlulaWake 是一款 macOS 菜单栏工具，适合下载、构建等需要临时保持 Mac 运行的场景。
 支持无限期、倒计时和指定结束时间，并提供低电量、重新开盖和退出时的恢复机制。
 
-**系统要求：macOS 14 或更高版本；Apple Silicon 或 Intel Mac。**
-当前界面为中文。合盖行为受具体硬件和系统设置影响，首次使用请在你的 Mac 上验证。
+## 主要功能
 
-## 下载与安装
+- **三种保持方式**：无限期、倒计时或保持到指定时间。
+- **多重自动恢复**：到时、低电量、重新开盖、主动停止或正常退出时恢复睡眠。
+- **状态安全检查**：启动时检查异常退出可能留下的保持状态，停止失败时明确提示。
+- **可选合盖锁屏**：获得辅助功能权限后锁定当前会话，并可在恢复时发送通知。
+- **原生菜单栏体验**：无需常驻主窗口，设置和运行状态集中在菜单栏。
 
-在 [Releases](https://github.com/yingkaisun-kai/UlulaWake/releases) 下载 DMG，
-打开后将 UlulaWake 拖入 Applications，再从 Applications 启动。
-正式安装包已经过 Developer ID 签名和 Apple 公证。
+## 下载与快速开始
 
-## 开始使用
+从 [最新版本](https://github.com/yingkaisun-kai/UlulaWake/releases/latest) 下载 DMG，打开后将
+UlulaWake 拖入“应用程序”，再从“应用程序”启动。安装包已经过 Developer ID 签名和 Apple 公证。
 
-1. 点击菜单栏猫头鹰图标，点击“授权”，通过系统管理员授权启用睡眠控制。
+1. 点击菜单栏猫头鹰图标，再点击“授权”，通过系统管理员授权启用睡眠控制。
 2. 选择保持模式、时长或结束时间，设置电量下限和开盖恢复选项。
 3. 打开保持唤醒开关；结束任务后关闭开关，或等待自动恢复。
 4. 如需合盖时锁屏，在“合盖时锁屏”区域先点击“请求权限”，再到辅助功能设置打开开关。
 
 辅助功能权限是锁定会话所需的可选权限，必须由用户在系统设置中启用。
 未授权时会退回启动屏幕保护程序；**启动屏保不等于已经锁定会话**。
+
+## 系统要求
+
+- macOS 14 或更高版本
+- Apple Silicon 或 Intel Mac
+- 当前界面为中文
+
+合盖运行行为受具体 Mac 硬件和系统设置影响，首次使用请在你的设备上验证完整流程。
 
 ## 恢复与卸载
 
@@ -41,7 +57,7 @@ sudo pmset -a disablesleep 0
 
 ## 隐私与反馈
 
-无账户、云服务或遥测；设置和状态保存在本机。
+UlulaWake 无需账户，不使用云服务或遥测；设置和状态保存在本机。
 问题请提交到 [Issues](https://github.com/yingkaisun-kai/UlulaWake/issues)，
 附上版本、macOS 版本、芯片类型与复现步骤，勿附密码或私人数据。
 当前通过 Releases 手动下载更新，没有应用内自动更新。
